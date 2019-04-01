@@ -1,0 +1,35 @@
+apiVersion: "apps/v1"
+kind: Deployment
+metadata:
+  labels:
+    app: ktor-lifecycle
+  name: ktor-lifecycle
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ktor-lifecycle
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: ktor-lifecycle
+    spec:
+      containers:
+        - image: ktor-lifecycle-test:0.0.1
+          volumeMounts:
+          imagePullPolicy: Never
+          name: ktor-lifecycle
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PORT
+              value: "8080"
+            - name: MYSQL_HOST
+              value: "mysql"
+            - name: MYSQL_PASSWORD
+              value: "password"
+            - name: INSTANCE_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name

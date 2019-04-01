@@ -1,0 +1,49 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.3'
+    }
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'application'
+apply plugin: "com.github.johnrengelman.shadow"
+
+group 'ktor-lifecycle-test'
+version '0.0.1'
+sourceCompatibility = 1.8
+compileKotlin { kotlinOptions.jvmTarget = "1.8" }
+compileTestKotlin { kotlinOptions.jvmTarget = "1.8" }
+mainClassName = "io.igx.kotlin.ApplicationKt"
+
+sourceSets {
+    main.kotlin.srcDirs = main.java.srcDirs = ['src']
+    test.kotlin.srcDirs = test.java.srcDirs = ['test']
+    main.resources.srcDirs = ['resources']
+    test.resources.srcDirs = ['testresources']
+}
+
+repositories {
+    mavenLocal()
+    jcenter()
+    maven { url 'https://kotlin.bintray.com/ktor' }
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "io.ktor:ktor-server-netty:$ktor_version"
+    compile "ch.qos.logback:logback-classic:$logback_version"
+    compile "io.ktor:ktor-server-core:$ktor_version"
+    compile "io.ktor:ktor-jackson:$ktor_version"
+    compile 'org.koin:koin-ktor:2.0.0-beta-5'
+    //compile "org.jetbrains.exposed:exposed:0.13.2"
+    compile "mysql:mysql-connector-java:5.1.46"
+    compile "org.jdbi:jdbi3-kotlin-sqlobject:3.6.0"
+    compile group: 'com.zaxxer', name: 'HikariCP', version: '3.3.1'
+    testCompile "io.ktor:ktor-server-tests:$ktor_version"
+    testCompile 'org.koin:koin-test:2.0.0-beta-5'
+}

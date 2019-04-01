@@ -1,0 +1,16 @@
+# We select the base image from. Locally available or from https://hub.docker.com/
+FROM openjdk:jdk-slim
+
+# Then we add the user, create the /app folder and give permissions to our user.
+RUN mkdir /app
+
+ENV PORT 8080
+
+# Marks this container to use the specified $APPLICATION_USER
+
+# We copy the FAT Jar we built into the /app folder and sets that folder as the working directory.
+COPY ./build/libs/ktor-lifecycle-test-0.0.1-all.jar /app/my-application.jar
+WORKDIR /app
+
+# We launch java to execute the jar, with good defauls intended for containers.
+CMD ["java", "-server",  "-jar", "my-application.jar"]
